@@ -1,4 +1,7 @@
 package com.gihae.filestorage.repository;
 
-public interface FolderRepository {
+import com.gihae.filestorage.domain.Folder;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface FolderRepository extends JpaRepository<Folder, Long> {
 }

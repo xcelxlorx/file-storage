@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<nav th:fragment="fragment-nav" class="navbar navbar-expand-lg bg-primary">
+  <div class="container">
+    <!-- 로고 -->
+    <a class="navbar-brand text-white" href="/">
+      <strong>My Box</strong>
+    </a>
+    <!-- 네비게이션 메뉴 -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link text-white" th:href="@{/upload}">파일 업로드</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" th:href="@{/items}">파일 조회</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" th:href="@{/users/login}">로그인</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
