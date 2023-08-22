@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div th:insert="~{/fragments/nav.html::fragment-nav}"></div>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>파일 업로드</h2>
+    </div>
+    <form th:action th:object="${UploadDTO}" method="post" class="g-3 needs-validation" enctype="multipart/form-data">
+        <div class="row mb-3">
+            <div class="col-sm-10">
+                <input type="file" id="file" th:field="*{file}" class="form-control">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-6 text-center">
+                <button class="btn btn-outline-primary" type="submit">저장</button>
+                <button class="btn btn-outline-danger"
+                        th:onclick="|location.href='@{/}'|"
+                        type="button">취소</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
