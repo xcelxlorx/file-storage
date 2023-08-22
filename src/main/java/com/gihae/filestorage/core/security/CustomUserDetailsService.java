@@ -1,7 +1,7 @@
 package com.gihae.filestorage.core.security;
 
 import com.gihae.filestorage.domain.User;
-import com.gihae.filestorage.repository.UserRepository;
+import com.gihae.filestorage.repository.jpa.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,11 +16,11 @@ import java.util.Optional;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserJpaRepository userJpaRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> findUser = userRepository.findByEmail(email);
+        Optional<User> findUser = userJpaRepository.findByEmail(email);
 
         if (findUser.isEmpty()) {
             log.warn("login failed");

@@ -46,7 +46,7 @@ public class SecurityConfig {
         http.exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) ->
                 FilterResponseUtils.forbidden(response, new Exception403("accessed by an unauthorized user")));
         http.authorizeRequests(
-                authorize -> authorize.antMatchers("/items/**", "/upload/**")
+                authorize -> authorize.antMatchers()//"/items/**", "/upload/**"
                         .authenticated()
                         .antMatchers("/admin/**")
                         .access("hasRole('ADMIN')")

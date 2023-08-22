@@ -15,5 +15,6 @@ spring:
       ddl-auto: create
     generate-ddl: true
     show-sql: true
+
 file:
-  dir: C:\Users\kihae\study-project\file
+  dir: C:\Users\kihae\study-project\file\

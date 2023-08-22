@@ -7,5 +7,62 @@
 </head>
 <body>
 <div th:insert="~{/fragments/nav.html::fragment-nav}"></div>
+<div class="container" style="max-width: 800px">
+    <div class="py-5 text-center">
+        <h1 class="mt-4">My Box</h1>
+    </div>
+    <div class="container mx-auto">
+        <button type="button" class="btn btn-outline-primary float-end mx-2"
+                th:onclick="|location.href='@{/folders/{folderId}/create(folderId=${currentId})}'|">새 폴더</button>
+        <button type="button" class="btn btn-outline-primary float-end"
+                th:onclick="|location.href='@{/{currentId}/upload(currentId=${currentId})}'|">파일 올리기</button>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>파일 및 폴더</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${file != null}" th:each="file : ${files.getFiles()}">
+                <td th:text="${file.name}"></td>
+                <td>
+                    <span>
+                    <button class="btn btn-outline-primary btn-sm"
+                            th:onclick="|location.href='@{/files/{fileId}/download(fileId=${file.id})}'|"
+                            type="button">파일 다운로드</button>
+                    <button class="btn btn-outline-danger btn-sm"
+                            th:onclick="|location.href='@{/files/{fileId}/delete(fileId=${file.id})}'|"
+                            type="button">삭제</button>
+                    </span>
+                </td>
+            </tr>
+            <tr th:if="${folders != null}" th:each="folder : ${folders.getFolders()}">
+                <td><a th:text="${folder.name}"
+                       th:href="|/folders/${folder.id}|"/></td>
+                <td>
+                    <span>
+                    <button class="btn btn-outline-primary btn-sm"
+                            th:onclick="|location.href='@{/folders/{folderId}/download(folderId=${folder.id})}'|"
+                            type="button">폴더 다운로드</button>
+                    <button class="btn btn-outline-danger btn-sm"
+                            th:onclick="'javascript:deleteFolder('+${folder.id}+')'"
+                            type="button">삭제</button>
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
+<script>
+    function deleteFolder(folderId) {
+        const form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/folders/" + folderId + "/delete");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
 </html>

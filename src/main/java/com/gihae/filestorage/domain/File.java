@@ -10,8 +10,8 @@ import javax.persistence.*;
 @Getter
 @RequiredArgsConstructor
 @Entity
-@Table(name = "item_tb")
-public class Item {
+@Table(name = "files_tb")
+public class File {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,19 +24,18 @@ public class Item {
     @Embedded
     private SaveFile file;
 
-    @ManyToOne
-    private User user;
+//    @ManyToOne
+//    private User user;
 
     @ManyToOne
-    private Folder folder;
+    private Folder parent;
 
     @Builder
-    public Item(Long id, String name, Long size, SaveFile file, User user, Folder folder) {
+    public File(Long id, String name, Long size, SaveFile file, Folder parent) {
         this.id = id;
         this.name = name;
         this.size = size;
         this.file = file;
-        this.user = user;
-        this.folder = folder;
+        this.parent = parent;
     }
 }

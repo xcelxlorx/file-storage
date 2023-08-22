@@ -1,11 +1,12 @@
 package com.gihae.filestorage.controller;
 
 import com.gihae.filestorage.controller.dto.UserRequest;
+import com.gihae.filestorage.controller.dto.UserResponse;
 import com.gihae.filestorage.core.security.JWTProvider;
 import com.gihae.filestorage.core.utils.ApiUtils;
 import com.gihae.filestorage.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("users")
+@Slf4j
+@RequestMapping("/users")
 @RequiredArgsConstructor
 @Controller
 public class UserController {
@@ -28,8 +30,10 @@ public class UserController {
 
     @PostMapping("/join")
     public String join(@ModelAttribute UserRequest.JoinDTO joinDTO){
+        log.info("회원가입");
         userService.join(joinDTO);
-        return "redirect:/";
+        log.info("회원가입 성공");
+        return "redirect:/users/login";
     }
 
     @GetMapping("/login")
@@ -40,7 +44,17 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@ModelAttribute UserRequest.LoginDTO loginDTO){
+        log.info("로그인");
         userService.login(loginDTO);
+        log.info("로그인 성공");
         return "redirect:/";
+    }
+
+    @GetMapping("/my-page")
+    public String myPage(Model model){
+        Long userId = 1L;
+        UserResponse.FindUserDTO user = userService.findById(userId);
+        model.addAttribute("user", user);
+        return "my-page";
     }
 }

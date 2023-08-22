@@ -2,15 +2,13 @@ package com.gihae.filestorage.controller.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
-public class ItemRequest {
+public class FolderRequest {
 
     @Getter
     @Setter
-    public static class UploadDTO {
+    public static class SaveDTO {
         private String name;
-        private MultipartFile file;
     }
 }

@@ -11,15 +11,8 @@
     <div class="py-5 text-center">
         <h2>파일 업로드</h2>
     </div>
-    <form th:action th:object="${item}" method="post" class="g-3 needs-validation" enctype="multipart/form-data">
+    <form th:action th:object="${UploadDTO}" method="post" class="g-3 needs-validation" enctype="multipart/form-data">
         <div class="row mb-3">
-            <label for="name"  class="col-sm-2 col-form-label">저장명</label>
-            <div class="col-sm-10">
-                <input type="text" id="name" th:field="*{name}" class="form-control">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="file" class="col-sm-2 col-form-label">파일</label>
             <div class="col-sm-10">
                 <input type="file" id="file" th:field="*{file}" class="form-control">
             </div>

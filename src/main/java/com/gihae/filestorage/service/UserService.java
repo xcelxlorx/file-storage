@@ -1,7 +1,9 @@
 package com.gihae.filestorage.service;
 
 import com.gihae.filestorage.controller.dto.UserRequest;
+import com.gihae.filestorage.controller.dto.UserResponse;
 import com.gihae.filestorage.core.errors.exception.Exception400;
+import com.gihae.filestorage.core.errors.exception.Exception404;
 import com.gihae.filestorage.core.security.JWTProvider;
 import com.gihae.filestorage.domain.User;
 import com.gihae.filestorage.repository.UserRepository;
@@ -35,5 +37,21 @@ public class UserService {
         }
 
         JWTProvider.create(user);
+    }
+
+    public UserResponse.FindUserDTO findById(Long userId){
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new Exception404("사용자를 찾을 수 없습니다.")
+        );
+
+        return new UserResponse.FindUserDTO(user);
+    }
+
+    public void updateUsage(Long userId, Long updatedUsage){
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new Exception404("사용자를 찾을 수 없습니다.")
+        );
+
+        userRepository.updateUsage(userId, user.getUsage() + updatedUsage);
     }
 }

@@ -1,9 +1,12 @@
 package com.gihae.filestorage.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
@@ -17,16 +20,21 @@ public class Folder {
 
     private String name;
 
+//    @ManyToOne
+//    private User user;
+
     @ManyToOne
-    private User user;
+    @JoinColumn(name = "parent_id")
+    private Folder parent;
 
-    @OneToOne
-    private Folder folder;
+    @OneToMany(mappedBy = "parent")
+    private List<Folder> child = new ArrayList<>();
 
-    public Folder(Long id, String name, User user, Folder folder) {
+    @Builder
+    public Folder(Long id, String name, Folder parent, List<Folder> child) {
         this.id = id;
         this.name = name;
-        this.user = user;
-        this.folder = folder;
+        this.parent = parent;
+        this.child = child;
     }
 }
