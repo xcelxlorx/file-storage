@@ -1,6 +1,7 @@
 package com.gihae.filestorage.controller.dto;
 
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Embeddable;
 
@@ -8,13 +9,15 @@ import javax.persistence.Embeddable;
 @Getter
 public class SaveFile {
 
-    private String uploadFileName;
+    private String originalFileName;
     private String saveFileName;
+    private MultipartFile file;
 
     protected SaveFile(){}
 
-    public SaveFile(String uploadFileName, String saveFileName) {
-        this.uploadFileName = uploadFileName;
+    public SaveFile(String uploadFileName, String saveFileName, MultipartFile file) {
+        this.originalFileName = uploadFileName;
         this.saveFileName = saveFileName;
+        this.file = file;
     }
 }
