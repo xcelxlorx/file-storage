@@ -66,7 +66,7 @@ public class FileService {
     private void save(Long userId, MultipartFile multipartFile, Folder parent, FileData fileData) {
         File file = File.builder()
                 .name(fileData.getOriginalFileName())
-                .file(fileData)
+                .fileData(fileData)
                 .size(multipartFile.getSize())
                 .parent(parent)
                 .build();
@@ -81,8 +81,8 @@ public class FileService {
         File file = fileRepository.findById(itemId).orElseThrow(
                 () -> new Exception404("파일을 찾을 수 없습니다.")
         );
-        String uploadFileName = file.getFile().getOriginalFileName();
-        String saveFileName = file.getFile().getSaveFileName();
+        String uploadFileName = file.getFileData().getOriginalFileName();
+        String saveFileName = file.getFileData().getSaveFileName();
 
         UrlResource resource = new UrlResource("file:" + dirService.getPath(saveFileName));
         String encodedUploadFileName = UriUtils.encode(uploadFileName, StandardCharsets.UTF_8);

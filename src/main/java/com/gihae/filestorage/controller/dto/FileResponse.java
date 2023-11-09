@@ -23,14 +23,14 @@ public class FileResponse {
 
             private final Long id;
             private final String name;
-            private final FileData file;
+            private final FileData fileData;
             private final Long size;
 
-            public FileDTO(File file) {
-                this.id = file.getId();
-                this.name = file.getName();
-                this.file = file.getFile();
-                this.size = file.getSize();
+            public FileDTO(File fileData) {
+                this.id = fileData.getId();
+                this.name = fileData.getName();
+                this.fileData = fileData.getFileData();
+                this.size = fileData.getSize();
             }
         }
     }
