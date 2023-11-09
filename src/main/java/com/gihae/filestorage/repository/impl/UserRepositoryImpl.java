@@ -29,9 +29,4 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findByEmail(String email) {
         return userJpaRepository.findByEmail(email);
     }
-
-    @Override
-    public void updateUsage(Long id, Long usage) {
-        userJpaRepository.updateUsage(id, usage);
-    }
 }
