@@ -55,14 +55,18 @@ public class FileService {
 
         SaveFile saveFile = dirService.transfer(uploadDTO.getFile());
 
+        save(uploadDTO.getFile(), parent, saveFile);
+    }
+
+    private void save(MultipartFile multipartFile, Folder parent, SaveFile saveFile) {
         File file = File.builder()
                 .name(saveFile.getOriginalFileName())
                 .file(saveFile)
-                .size(uploadDTO.getFile().getSize())
+                .size(multipartFile.getSize())
                 .parent(parent)
                 .build();
-        fileRepository.save(file);
 
+        fileRepository.save(file);
         userService.updateUsage(1L, file.getSize());
     }
 
