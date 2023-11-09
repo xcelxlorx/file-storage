@@ -45,13 +45,12 @@ public class FileService {
 
     @Transactional
     public void upload(FileRequest.UploadDTO uploadDTO, Long folderId) throws IOException {
-        Optional<File> findFile = fileRepository.findByName(uploadDTO.getFile().getOriginalFilename());
-        if(findFile.isPresent()){
+        fileRepository.findByName(uploadDTO.getFile().getOriginalFilename()).ifPresent(file -> {
             throw new Exception400("동일한 이름의 파일이 존재합니다.");
-        }
+        });
 
         Folder parent = folderRepository.findById(folderId).orElseThrow(
-                () -> new Exception404("해당 폴더가 존재하지 않습니다.")
+                () -> new Exception404("상위 폴더가 존재하지 않습니다.")
         );
 
         SaveFile saveFile = dirService.transfer(uploadDTO.getFile());
