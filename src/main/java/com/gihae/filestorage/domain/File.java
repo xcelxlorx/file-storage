@@ -21,7 +21,7 @@ public class File {
     private Long size;
 
     @Embedded
-    private SaveFile file;
+    private FileData file;
 
 //    @ManyToOne
 //    private User user;
@@ -30,7 +30,7 @@ public class File {
     private Folder parent;
 
     @Builder
-    public File(Long id, String name, Long size, SaveFile file, Folder parent) {
+    public File(Long id, String name, Long size, FileData file, Folder parent) {
         this.id = id;
         this.name = name;
         this.size = size;

@@ -1,7 +1,7 @@
 package com.gihae.filestorage.controller.dto;
 
 import com.gihae.filestorage.domain.File;
-import com.gihae.filestorage.domain.SaveFile;
+import com.gihae.filestorage.domain.FileData;
 import lombok.Getter;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class FileResponse {
 
             private final Long id;
             private final String name;
-            private final SaveFile file;
+            private final FileData file;
             private final Long size;
 
             public FileDTO(File file) {

@@ -6,7 +6,7 @@ import com.gihae.filestorage.controller.dto.FileRequest;
 import com.gihae.filestorage.controller.dto.FileResponse;
 import com.gihae.filestorage.domain.File;
 import com.gihae.filestorage.domain.Folder;
-import com.gihae.filestorage.domain.SaveFile;
+import com.gihae.filestorage.domain.FileData;
 import com.gihae.filestorage.domain.User;
 import com.gihae.filestorage.repository.FileRepository;
 import com.gihae.filestorage.repository.FolderRepository;
@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.UUID;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -53,15 +54,19 @@ public class FileService {
                 () -> new Exception404("상위 폴더가 존재하지 않습니다.")
         );
 
-        SaveFile saveFile = dirService.transfer(uploadDTO.getFile());
+        MultipartFile file = uploadDTO.getFile();
+        FileData fileData = transfer(file);
 
-        save(userId, uploadDTO.getFile(), parent, saveFile);
+        dirService.upload(fileData, file);
+        s3Service.upload(fileData, file);
+
+        save(userId, uploadDTO.getFile(), parent, fileData);
     }
 
-    private void save(Long userId, MultipartFile multipartFile, Folder parent, SaveFile saveFile) {
+    private void save(Long userId, MultipartFile multipartFile, Folder parent, FileData fileData) {
         File file = File.builder()
-                .name(saveFile.getOriginalFileName())
-                .file(saveFile)
+                .name(fileData.getOriginalFileName())
+                .file(fileData)
                 .size(multipartFile.getSize())
                 .parent(parent)
                 .build();
@@ -104,5 +109,23 @@ public class FileService {
                 () -> new Exception404("사용자를 찾을 수 없습니다.")
         );
         user.updateUsage(user.getUsage() + fileSize);
+    }
+
+    private FileData transfer(MultipartFile file){
+        if(file.isEmpty()){
+            throw new Exception404("파일이 없습니다.");
+        }
+
+        String originalFilename = file.getOriginalFilename();
+        if(originalFilename == null){
+            throw new Exception400("파일 이름이 없습니다.");
+        }
+
+        int pos = originalFilename.lastIndexOf(".");
+        String ext = originalFilename.substring(pos + 1);
+        String uuid = UUID.randomUUID().toString();
+        String saveFileName = uuid + "." + ext;
+
+        return new FileData(originalFilename, saveFileName);
     }
 }

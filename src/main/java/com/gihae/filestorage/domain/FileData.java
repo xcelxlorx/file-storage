@@ -6,14 +6,14 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 @Getter
-public class SaveFile {
+public class FileData {
 
     private String originalFileName;
     private String saveFileName;
 
-    protected SaveFile(){}
+    protected FileData(){}
 
-    public SaveFile(String uploadFileName, String saveFileName) {
+    public FileData(String uploadFileName, String saveFileName) {
         this.originalFileName = uploadFileName;
         this.saveFileName = saveFileName;
     }

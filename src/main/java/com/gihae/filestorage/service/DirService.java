@@ -1,15 +1,13 @@
 package com.gihae.filestorage.service;
 
-import com.gihae.filestorage._core.errors.exception.Exception400;
-import com.gihae.filestorage._core.errors.exception.Exception404;
-import com.gihae.filestorage.domain.SaveFile;
+import com.gihae.filestorage.domain.FileData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -22,23 +20,7 @@ public class DirService {
         return fileDir + saveFileName;
     }
 
-    public SaveFile transfer(MultipartFile file) throws IOException {
-        if(file.isEmpty()){
-            throw new Exception404("파일이 없습니다.");
-        }
-
-        String originalFilename = file.getOriginalFilename();
-        if(originalFilename == null){
-            throw new Exception400("파일 이름이 없습니다.");
-        }
-
-        int pos = originalFilename.lastIndexOf(".");
-        String ext = originalFilename.substring(pos + 1);
-        String uuid = UUID.randomUUID().toString();
-        String saveFileName = uuid + "." + ext;
-
-        file.transferTo(new java.io.File(getPath(saveFileName)));
-
-        return new SaveFile(originalFilename, saveFileName);
+    public void upload(FileData fileData, MultipartFile file) throws IOException {
+        file.transferTo(new File(getPath(fileData.getSaveFileName()))); //서버의 파일 시스템에 저장
     }
 }
