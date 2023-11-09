@@ -22,3 +22,16 @@ spring:
 
 file:
   dir: C:\Users\kihae\study-project\file\
+
+cloud:
+  aws:
+    s3:
+      bucket: gihae-file-bucket
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
