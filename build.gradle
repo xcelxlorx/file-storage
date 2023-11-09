@@ -37,6 +37,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	implementation 'com.auth0:java-jwt:4.0.0'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation 'software.amazon.awssdk:s3:2.20.162'
 }
 
 tasks.named('test') {
