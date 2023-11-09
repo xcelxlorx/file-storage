@@ -1,14 +1,16 @@
 package com.gihae.filestorage.service;
 
-import com.gihae.filestorage.controller.dto.FileRequest;
-import com.gihae.filestorage.controller.dto.FileResponse;
-import com.gihae.filestorage.domain.SaveFile;
 import com.gihae.filestorage._core.errors.exception.Exception400;
 import com.gihae.filestorage._core.errors.exception.Exception404;
+import com.gihae.filestorage.controller.dto.FileRequest;
+import com.gihae.filestorage.controller.dto.FileResponse;
 import com.gihae.filestorage.domain.File;
 import com.gihae.filestorage.domain.Folder;
+import com.gihae.filestorage.domain.SaveFile;
+import com.gihae.filestorage.domain.User;
 import com.gihae.filestorage.repository.FileRepository;
 import com.gihae.filestorage.repository.FolderRepository;
+import com.gihae.filestorage.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -23,8 +25,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -33,8 +33,8 @@ public class FileService {
 
     private final FileRepository fileRepository;
     private final FolderRepository folderRepository;
+    private final UserRepository userRepository;
 
-    private final UserService userService;
     private final S3Service s3Service;
     private final DirService dirService;
 
@@ -44,7 +44,7 @@ public class FileService {
     }
 
     @Transactional
-    public void upload(FileRequest.UploadDTO uploadDTO, Long folderId) throws IOException {
+    public void upload(FileRequest.UploadDTO uploadDTO, Long folderId, Long userId) throws IOException {
         fileRepository.findByName(uploadDTO.getFile().getOriginalFilename()).ifPresent(file -> {
             throw new Exception400("동일한 이름의 파일이 존재합니다.");
         });
@@ -55,10 +55,10 @@ public class FileService {
 
         SaveFile saveFile = dirService.transfer(uploadDTO.getFile());
 
-        save(uploadDTO.getFile(), parent, saveFile);
+        save(userId, uploadDTO.getFile(), parent, saveFile);
     }
 
-    private void save(MultipartFile multipartFile, Folder parent, SaveFile saveFile) {
+    private void save(Long userId, MultipartFile multipartFile, Folder parent, SaveFile saveFile) {
         File file = File.builder()
                 .name(saveFile.getOriginalFileName())
                 .file(saveFile)
@@ -67,7 +67,8 @@ public class FileService {
                 .build();
 
         fileRepository.save(file);
-        userService.updateUsage(1L, file.getSize());
+
+        updateUsage(userId, file.getSize());
     }
 
     @Transactional
@@ -87,14 +88,21 @@ public class FileService {
     }
 
     @Transactional
-    public void delete(Long itemId){
+    public void delete(Long itemId, Long userId){
         File file = fileRepository.findById(itemId).orElseThrow(
                 () -> new Exception404("파일을 찾을 수 없습니다.")
         );
 
-        userService.updateUsage(1L, -file.getSize());
         fileRepository.deleteById(itemId);
-
         //클라우드에서 파일 진짜 삭제
+
+        updateUsage(userId, -file.getSize());
+    }
+
+    private void updateUsage(Long userId, Long fileSize){
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new Exception404("사용자를 찾을 수 없습니다.")
+        );
+        user.updateUsage(user.getUsage() + fileSize);
     }
 }

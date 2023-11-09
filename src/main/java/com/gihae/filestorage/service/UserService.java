@@ -46,12 +46,4 @@ public class UserService {
 
         return new UserResponse.FindUserDTO(user);
     }
-
-    public void updateUsage(Long userId, Long updatedUsage){
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new Exception404("사용자를 찾을 수 없습니다.")
-        );
-
-        userRepository.updateUsage(userId, user.getUsage() + updatedUsage);
-    }
 }

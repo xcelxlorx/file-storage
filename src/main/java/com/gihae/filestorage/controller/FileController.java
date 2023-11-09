@@ -45,7 +45,8 @@ public class FileController {
 
     @PostMapping("/{currentId}/upload")
     public String upload(@PathVariable Long currentId, @ModelAttribute FileRequest.UploadDTO file) throws IOException {
-        fileService.upload(file, currentId);
+        Long userId = 1L;
+        fileService.upload(file, currentId, userId);
         return "redirect:/";
     }
 
@@ -56,7 +57,8 @@ public class FileController {
 
     @GetMapping("/files/{fileId}/delete")
     public String delete(@PathVariable Long fileId){
-        fileService.delete(fileId);
+        Long userId = 1L;
+        fileService.delete(fileId, userId);
         return "redirect:/";
     }
 }

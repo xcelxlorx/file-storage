@@ -39,4 +39,8 @@ public class User {
         this.role = role;
         this.usage = usage;
     }
+
+    public void updateUsage(Long usage){
+        this.usage = usage;
+    }
 }
