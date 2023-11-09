@@ -1,4 +1,4 @@
-package com.gihae.filestorage.controller.dto;
+package com.gihae.filestorage.domain;
 
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,13 +11,11 @@ public class SaveFile {
 
     private String originalFileName;
     private String saveFileName;
-    private MultipartFile file;
 
     protected SaveFile(){}
 
-    public SaveFile(String uploadFileName, String saveFileName, MultipartFile file) {
+    public SaveFile(String uploadFileName, String saveFileName) {
         this.originalFileName = uploadFileName;
         this.saveFileName = saveFileName;
-        this.file = file;
     }
 }

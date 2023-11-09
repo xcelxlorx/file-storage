@@ -1,6 +1,7 @@
 package com.gihae.filestorage.controller.dto;
 
 import com.gihae.filestorage.domain.File;
+import com.gihae.filestorage.domain.SaveFile;
 import lombok.Getter;
 
 import java.util.List;

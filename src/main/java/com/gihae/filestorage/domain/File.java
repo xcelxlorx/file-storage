@@ -1,6 +1,5 @@
 package com.gihae.filestorage.domain;
 
-import com.gihae.filestorage.controller.dto.SaveFile;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
