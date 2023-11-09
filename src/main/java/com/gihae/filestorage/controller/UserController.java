@@ -2,8 +2,6 @@ package com.gihae.filestorage.controller;
 
 import com.gihae.filestorage.controller.dto.UserRequest;
 import com.gihae.filestorage.controller.dto.UserResponse;
-import com.gihae.filestorage.core.security.JWTProvider;
-import com.gihae.filestorage.core.utils.ApiUtils;
 import com.gihae.filestorage.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

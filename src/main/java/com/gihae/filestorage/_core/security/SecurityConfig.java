@@ -1,8 +1,8 @@
-package com.gihae.filestorage.core.security;
+package com.gihae.filestorage._core.security;
 
-import com.gihae.filestorage.core.errors.exception.Exception401;
-import com.gihae.filestorage.core.errors.exception.Exception403;
-import com.gihae.filestorage.core.utils.FilterResponseUtils;
+import com.gihae.filestorage._core.errors.exception.Exception401;
+import com.gihae.filestorage._core.errors.exception.Exception403;
+import com.gihae.filestorage._core.utils.FilterResponseUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,4 +1,4 @@
-package com.gihae.filestorage.core.security;
+package com.gihae.filestorage._core.security;
 
 import com.gihae.filestorage.domain.User;
 import org.springframework.stereotype.Component;

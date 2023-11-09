@@ -1,4 +1,4 @@
-package com.gihae.filestorage.core.security;
+package com.gihae.filestorage._core.security;
 
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;

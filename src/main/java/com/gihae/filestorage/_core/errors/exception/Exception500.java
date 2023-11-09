@@ -1,6 +1,6 @@
-package com.gihae.filestorage.core.errors.exception;
+package com.gihae.filestorage._core.errors.exception;
 
-import com.gihae.filestorage.core.utils.ApiUtils;
+import com.gihae.filestorage._core.utils.ApiUtils;
 import org.springframework.http.HttpStatus;
 
 public class Exception500 extends RuntimeException{

@@ -1,8 +1,8 @@
-package com.gihae.filestorage.core.utils;
+package com.gihae.filestorage._core.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gihae.filestorage.core.errors.exception.Exception401;
-import com.gihae.filestorage.core.errors.exception.Exception403;
+import com.gihae.filestorage._core.errors.exception.Exception401;
+import com.gihae.filestorage._core.errors.exception.Exception403;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

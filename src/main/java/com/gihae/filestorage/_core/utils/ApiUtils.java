@@ -1,4 +1,4 @@
-package com.gihae.filestorage.core.utils;
+package com.gihae.filestorage._core.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

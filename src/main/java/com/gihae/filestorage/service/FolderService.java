@@ -2,8 +2,8 @@ package com.gihae.filestorage.service;
 
 import com.gihae.filestorage.controller.dto.FolderRequest;
 import com.gihae.filestorage.controller.dto.FolderResponse;
-import com.gihae.filestorage.core.errors.exception.Exception400;
-import com.gihae.filestorage.core.errors.exception.Exception404;
+import com.gihae.filestorage._core.errors.exception.Exception400;
+import com.gihae.filestorage._core.errors.exception.Exception404;
 import com.gihae.filestorage.domain.Folder;
 import com.gihae.filestorage.repository.FolderRepository;
 import lombok.RequiredArgsConstructor;
