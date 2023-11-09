@@ -57,7 +57,7 @@ public class FileService {
         MultipartFile file = uploadDTO.getFile();
         FileData fileData = transfer(file);
 
-        dirService.upload(fileData, file);
+        //dirService.upload(fileData, file);
         s3Service.upload(fileData, file);
 
         save(userId, uploadDTO.getFile(), parent, fileData);
