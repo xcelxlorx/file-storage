@@ -21,7 +21,7 @@ spring:
     open-in-view: false
 
 file:
-  dir: C:\Users\kihae\study-project\file\
+  dir: C:\Users\kihae\study-project\file-storage\file\
 
 cloud:
   aws:
