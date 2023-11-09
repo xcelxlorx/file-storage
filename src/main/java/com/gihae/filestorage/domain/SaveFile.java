@@ -1,7 +1,6 @@
 package com.gihae.filestorage.domain;
 
 import lombok.Getter;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Embeddable;
 

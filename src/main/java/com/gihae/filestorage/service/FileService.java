@@ -2,7 +2,7 @@ package com.gihae.filestorage.service;
 
 import com.gihae.filestorage.controller.dto.FileRequest;
 import com.gihae.filestorage.controller.dto.FileResponse;
-import com.gihae.filestorage.controller.dto.SaveFile;
+import com.gihae.filestorage.domain.SaveFile;
 import com.gihae.filestorage._core.errors.exception.Exception400;
 import com.gihae.filestorage._core.errors.exception.Exception404;
 import com.gihae.filestorage.domain.File;
@@ -10,7 +10,6 @@ import com.gihae.filestorage.domain.Folder;
 import com.gihae.filestorage.repository.FileRepository;
 import com.gihae.filestorage.repository.FolderRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -32,12 +31,12 @@ import java.util.UUID;
 @Service
 public class FileService {
 
-    @Value("${file.dir}")
-    private String fileDir;
-
     private final FileRepository fileRepository;
     private final FolderRepository folderRepository;
+
     private final UserService userService;
+    private final S3Service s3Service;
+    private final DirService dirService;
 
     public FileResponse.FindFileDTO findByFolderId(Long folderId){
         List<File> files = fileRepository.findByFolderId(folderId);
@@ -55,10 +54,10 @@ public class FileService {
                 () -> new Exception404("해당 폴더가 존재하지 않습니다.")
         );
 
-        SaveFile saveFile = transfer(uploadDTO.getFile());
+        SaveFile saveFile = dirService.transfer(uploadDTO.getFile());
 
         File file = File.builder()
-                .name(saveFile.getUploadFileName())
+                .name(saveFile.getOriginalFileName())
                 .file(saveFile)
                 .size(uploadDTO.getFile().getSize())
                 .parent(parent)
@@ -68,33 +67,15 @@ public class FileService {
         userService.updateUsage(1L, file.getSize());
     }
 
-    private SaveFile transfer(MultipartFile file) throws IOException {
-        if(file.isEmpty()){
-            return null;
-        }
-
-        String originalFilename = file.getOriginalFilename();
-        String uuid = UUID.randomUUID().toString();
-        int pos = originalFilename.lastIndexOf(".");
-        String ext = originalFilename.substring(pos + 1);
-        String saveFileName = uuid + "." + ext;
-        file.transferTo(new java.io.File(getPath(saveFileName)));
-        return new SaveFile(originalFilename, saveFileName);
-    }
-
-    private String getPath(String saveFileName) {
-        return fileDir + saveFileName;
-    }
-
     @Transactional
     public ResponseEntity<Resource> download(Long itemId) throws MalformedURLException {
         File file = fileRepository.findById(itemId).orElseThrow(
                 () -> new Exception404("파일을 찾을 수 없습니다.")
         );
-        String uploadFileName = file.getFile().getUploadFileName();
+        String uploadFileName = file.getFile().getOriginalFileName();
         String saveFileName = file.getFile().getSaveFileName();
 
-        UrlResource resource = new UrlResource("file:" + getPath(saveFileName));
+        UrlResource resource = new UrlResource("file:" + dirService.getPath(saveFileName));
         String encodedUploadFileName = UriUtils.encode(uploadFileName, StandardCharsets.UTF_8);
         String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
         return ResponseEntity.ok()
