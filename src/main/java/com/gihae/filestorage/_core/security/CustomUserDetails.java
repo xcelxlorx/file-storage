@@ -11,6 +11,10 @@ import java.util.stream.Collectors;
 
 public record CustomUserDetails(User user) implements UserDetails {
 
+    public User getUser(){
+        return user;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.stream(user.getRole().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
