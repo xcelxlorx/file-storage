@@ -13,9 +13,9 @@
     </div>
     <div class="container mx-auto">
         <button type="button" class="btn btn-outline-primary float-end mx-2"
-                th:onclick="|location.href='@{/folders/{folderId}/create(folderId=${currentId})}'|">새 폴더</button>
+                th:onclick="|location.href='@{/folders/{folderId}/create(folderId=${folderId})}'|">새 폴더</button>
         <button type="button" class="btn btn-outline-primary float-end"
-                th:onclick="|location.href='@{/{currentId}/upload(currentId=${currentId})}'|">파일 올리기</button>
+                th:onclick="|location.href='@{/folders/{folderId}/upload(folderId=${folderId})}'|">파일 올리기</button>
         <table class="table">
             <thead>
             <tr>
