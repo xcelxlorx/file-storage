@@ -27,7 +27,7 @@ public class FolderController {
         model.addAttribute("currentId", folderId);
         model.addAttribute("files", files);
         model.addAttribute("folders", folders);
-        return "index";
+        return "home";
     }
 
     @PostMapping("/{folderId}/download")
