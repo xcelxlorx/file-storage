@@ -2,6 +2,7 @@ package com.gihae.filestorage.service;
 
 import com.gihae.filestorage._core.errors.exception.Exception400;
 import com.gihae.filestorage._core.errors.exception.Exception404;
+import com.gihae.filestorage._core.errors.exception.Exception500;
 import com.gihae.filestorage.controller.dto.FileRequest;
 import com.gihae.filestorage.controller.dto.FileResponse;
 import com.gihae.filestorage.domain.File;
@@ -41,7 +42,7 @@ public class FileService {
     }
 
     @Transactional
-    public void upload(FileRequest.UploadDTO uploadDTO, Long folderId, Long userId) throws IOException {
+    public void upload(FileRequest.UploadDTO uploadDTO, Long folderId, Long userId) {
         fileRepository.findByName(uploadDTO.getFile().getOriginalFilename()).ifPresent(file -> {
             throw new Exception400("동일한 이름의 파일이 존재합니다.");
         });
@@ -53,8 +54,12 @@ public class FileService {
         MultipartFile file = uploadDTO.getFile();
         FileData fileData = transfer(file);
 
-        //dirService.upload(fileData, file);
-        s3Service.upload(fileData, file);
+        try {
+            //dirService.upload(fileData, file);
+            s3Service.upload(fileData, file);
+        } catch (IOException e) {
+            throw new Exception500("파일 업로드에 실패했습니다.");
+        }
 
         save(userId, uploadDTO.getFile(), parent, fileData);
     }
@@ -73,13 +78,18 @@ public class FileService {
     }
 
     @Transactional
-    public ResponseEntity<?> download(Long itemId) throws IOException {
+    public ResponseEntity<?> download(Long itemId) {
         File file = fileRepository.findById(itemId).orElseThrow(
                 () -> new Exception404("파일을 찾을 수 없습니다.")
         );
         FileData fileData = file.getFileData();
-        //return dirService.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
-        return s3Service.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
+
+        try {
+            //return dirService.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
+            return s3Service.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
+        } catch (IOException e) {
+            throw new Exception500("파일 다운로드에 실패했습니다.");
+        }
     }
 
     @Transactional

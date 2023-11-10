@@ -44,14 +44,14 @@ public class FileController {
     }
 
     @PostMapping("/{currentId}/upload")
-    public String upload(@PathVariable Long currentId, @ModelAttribute FileRequest.UploadDTO file) throws IOException {
+    public String upload(@PathVariable Long currentId, @ModelAttribute FileRequest.UploadDTO file) {
         Long userId = 1L;
         fileService.upload(file, currentId, userId);
         return "redirect:/";
     }
 
     @GetMapping("/files/{fileId}/download")
-    public ResponseEntity<Resource> download(@PathVariable Long fileId) throws MalformedURLException {
+    public ResponseEntity<?> download(@PathVariable Long fileId) {
         return fileService.download(fileId);
     }
 
