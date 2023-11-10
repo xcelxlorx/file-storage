@@ -48,6 +48,11 @@ public class UserController {
         return "redirect:/";
     }
 
+    @PostMapping("/logout")
+    public void logout(){
+
+    }
+
     @GetMapping("/my-page")
     public String myPage(Model model){
         Long userId = 1L;
