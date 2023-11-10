@@ -1,5 +1,6 @@
 package com.gihae.filestorage.controller;
 
+import com.gihae.filestorage._core.security.CustomUserDetails;
 import com.gihae.filestorage.controller.dto.FileRequest;
 import com.gihae.filestorage.controller.dto.FileResponse;
 import com.gihae.filestorage.controller.dto.FolderResponse;
@@ -8,6 +9,7 @@ import com.gihae.filestorage.service.FolderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,13 +26,17 @@ public class FileController {
     private final FolderService folderService;
 
     @GetMapping
-    String items(Model model){
-        FileResponse.FindFileDTO files = fileService.findByFolderId(0L);
-        FolderResponse.FindFolderDTO folders = folderService.findByParentId(0L);
-        model.addAttribute("currentId", 0L);
-        model.addAttribute("files", files);
-        model.addAttribute("folders", folders);
-        return "index";
+    String items(Model model, @AuthenticationPrincipal CustomUserDetails userDetails){
+        if(userDetails == null || userDetails.getUser() == null){
+            return "landing";
+        }else{
+            FileResponse.FindFileDTO files = fileService.findByFolderId(0L);
+            FolderResponse.FindFolderDTO folders = folderService.findByParentId(0L);
+            model.addAttribute("currentId", 0L);
+            model.addAttribute("files", files);
+            model.addAttribute("folders", folders);
+            return "home";
+        }
     }
 
     @GetMapping("/{currentId}/upload")
