@@ -31,13 +31,11 @@ public class DirService {
         file.transferTo(new File(getPath(fileData.getSaveFileName()))); //서버의 파일 시스템에 저장
     }
 
-    public ResponseEntity<Resource> download(FileData fileData) throws MalformedURLException {
-        String originalFileName = fileData.getOriginalFileName();
-        String saveFileName = fileData.getSaveFileName();
-
+    public ResponseEntity<Resource> download(String originalFileName, String saveFileName) throws MalformedURLException {
         UrlResource resource = new UrlResource("file:" + getPath(saveFileName));
-        String encodedUploadFileName = UriUtils.encode(originalFileName, StandardCharsets.UTF_8);
-        String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
+        String encodedOriginalFileName = UriUtils.encode(originalFileName, StandardCharsets.UTF_8);
+        String contentDisposition = "attachment; filename=\"" + encodedOriginalFileName + "\"";
+
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .body(resource);

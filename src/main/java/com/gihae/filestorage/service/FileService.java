@@ -53,8 +53,8 @@ public class FileService {
         MultipartFile file = uploadDTO.getFile();
         FileData fileData = transfer(file);
 
-        dirService.upload(fileData, file);
-        //s3Service.upload(fileData, file);
+        //dirService.upload(fileData, file);
+        s3Service.upload(fileData, file);
 
         save(userId, uploadDTO.getFile(), parent, fileData);
     }
@@ -73,11 +73,13 @@ public class FileService {
     }
 
     @Transactional
-    public ResponseEntity<Resource> download(Long itemId) throws MalformedURLException {
+    public ResponseEntity<?> download(Long itemId) throws IOException {
         File file = fileRepository.findById(itemId).orElseThrow(
                 () -> new Exception404("파일을 찾을 수 없습니다.")
         );
-        return dirService.download(file.getFileData());
+        FileData fileData = file.getFileData();
+        //return dirService.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
+        return s3Service.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
     }
 
     @Transactional
