@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Slf4j
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @Controller
@@ -28,9 +27,7 @@ public class UserController {
 
     @PostMapping("/join")
     public String join(@ModelAttribute UserRequest.JoinDTO joinDTO){
-        log.info("회원가입");
         userService.join(joinDTO);
-        log.info("회원가입 성공");
         return "redirect:/users/login";
     }
 
