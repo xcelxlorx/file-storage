@@ -1,10 +1,11 @@
 package com.gihae.filestorage.controller;
 
+import com.gihae.filestorage._core.security.CustomUserDetails;
 import com.gihae.filestorage.controller.dto.UserRequest;
 import com.gihae.filestorage.controller.dto.UserResponse;
 import com.gihae.filestorage.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,9 +44,8 @@ public class UserController {
     }
 
     @GetMapping("/my-page")
-    public String myPage(Model model){
-        Long userId = 1L;
-        UserResponse.FindUserDTO user = userService.findById(userId);
+    public String myPage(Model model, @AuthenticationPrincipal CustomUserDetails userDetails){
+        UserResponse.FindUserDTO user = userService.findById(userDetails.user().getId());
         model.addAttribute("user", user);
         return "my-page";
     }

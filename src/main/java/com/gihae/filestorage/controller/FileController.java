@@ -46,9 +46,10 @@ public class FileController {
     }
 
     @PostMapping("/{currentId}/upload")
-    public String upload(@PathVariable Long currentId, @ModelAttribute FileRequest.UploadDTO file) {
-        Long userId = 1L;
-        fileService.upload(file, currentId, userId);
+    public String upload(@PathVariable Long currentId,
+                         @ModelAttribute FileRequest.UploadDTO file,
+                         @AuthenticationPrincipal CustomUserDetails userDetails) {
+        fileService.upload(file, currentId, userDetails.getUser().getId());
         return "redirect:/";
     }
 
@@ -58,9 +59,8 @@ public class FileController {
     }
 
     @GetMapping("/files/{fileId}/delete")
-    public String delete(@PathVariable Long fileId){
-        Long userId = 1L;
-        fileService.delete(fileId, userId);
+    public String delete(@PathVariable Long fileId, @AuthenticationPrincipal CustomUserDetails userDetails){
+        fileService.delete(fileId, userDetails.getUser().getId());
         return "redirect:/";
     }
 }
