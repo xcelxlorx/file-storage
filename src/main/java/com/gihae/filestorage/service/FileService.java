@@ -53,8 +53,8 @@ public class FileService {
         FileData fileData = transfer(file);
 
         try {
-            //dirService.upload(fileData, file);
-            s3Service.upload(fileData, file);
+            dirService.upload(fileData, file);
+            //s3Service.upload(fileData, file);
         } catch (IOException e) {
             throw new Exception500("파일 업로드에 실패했습니다.");
         }
@@ -83,8 +83,8 @@ public class FileService {
         FileData fileData = file.getFileData();
 
         try {
-            //return dirService.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
-            return s3Service.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
+            return dirService.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
+            //return s3Service.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
         } catch (IOException e) {
             throw new Exception500("파일 다운로드에 실패했습니다.");
         }
@@ -98,7 +98,8 @@ public class FileService {
 
         FileData fileData = file.getFileData();
 
-        s3Service.delete(fileData.getSaveFileName());
+        dirService.delete(fileData.getSaveFileName());
+        //s3Service.delete(fileData.getSaveFileName());
         fileRepository.deleteById(itemId);
 
         updateUsage(userId, -file.getSize());

@@ -1,5 +1,6 @@
 package com.gihae.filestorage.service;
 
+import com.gihae.filestorage._core.errors.exception.Exception500;
 import com.gihae.filestorage.domain.FileData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,5 +40,10 @@ public class DirService {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .body(resource);
+    }
+
+    public void delete(String saveFileName){
+        File file = new File(getPath(saveFileName));
+        file.delete();
     }
 }
