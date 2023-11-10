@@ -13,14 +13,12 @@ import com.gihae.filestorage.repository.FileRepository;
 import com.gihae.filestorage.repository.FolderRepository;
 import com.gihae.filestorage.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.UUID;
 
