@@ -23,7 +23,12 @@ public class UserService {
     @Transactional
     public void join(UserRequest.JoinDTO joinDTO){
         joinDTO.setPassword(passwordEncoder.encode(joinDTO.getPassword()));
-        User user = User.builder().username(joinDTO.getUsername()).email(joinDTO.getEmail()).role("NORMAL").password(joinDTO.getPassword()).build();
+        User user = User.builder()
+                .username(joinDTO.getUsername())
+                .email(joinDTO.getEmail())
+                .role("NORMAL")
+                .password(joinDTO.getPassword())
+                .build();
         userRepository.save(user);
     }
 
