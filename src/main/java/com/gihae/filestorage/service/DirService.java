@@ -3,11 +3,18 @@ package com.gihae.filestorage.service;
 import com.gihae.filestorage.domain.FileData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 
 @RequiredArgsConstructor
 @Service
@@ -22,5 +29,17 @@ public class DirService {
 
     public void upload(FileData fileData, MultipartFile file) throws IOException {
         file.transferTo(new File(getPath(fileData.getSaveFileName()))); //서버의 파일 시스템에 저장
+    }
+
+    public ResponseEntity<Resource> download(FileData fileData) throws MalformedURLException {
+        String originalFileName = fileData.getOriginalFileName();
+        String saveFileName = fileData.getSaveFileName();
+
+        UrlResource resource = new UrlResource("file:" + getPath(saveFileName));
+        String encodedUploadFileName = UriUtils.encode(originalFileName, StandardCharsets.UTF_8);
+        String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                .body(resource);
     }
 }
