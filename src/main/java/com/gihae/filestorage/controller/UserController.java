@@ -40,14 +40,6 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(@ModelAttribute UserRequest.LoginDTO loginDTO){
-        log.info("로그인");
-        userService.login(loginDTO);
-        log.info("로그인 성공");
-        return "redirect:/";
-    }
-
     @PostMapping("/logout")
     public void logout(){
 
