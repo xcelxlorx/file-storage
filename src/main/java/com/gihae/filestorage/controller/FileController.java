@@ -30,26 +30,27 @@ public class FileController {
         if(userDetails == null || userDetails.getUser() == null){
             return "landing";
         }else{
-            FileResponse.FindFileDTO files = fileService.findByFolderId(0L);
-            FolderResponse.FindFolderDTO folders = folderService.findByParentId(0L);
-            model.addAttribute("currentId", 0L);
+            Long folderId = 1L;
+            FileResponse.FindFileDTO files = fileService.findByFolderId(folderId);
+            FolderResponse.FindFolderDTO folders = folderService.findByParentId(folderId);
+            model.addAttribute("folderId", folderId);
             model.addAttribute("files", files);
             model.addAttribute("folders", folders);
             return "home";
         }
     }
 
-    @GetMapping("/{currentId}/upload")
+    @GetMapping("/folders/{folderId}/upload")
     String uploadForm(Model model){
         model.addAttribute("UploadDTO", new FileRequest.UploadDTO());
         return "upload-form";
     }
 
-    @PostMapping("/{currentId}/upload")
-    public String upload(@PathVariable Long currentId,
+    @PostMapping("/folders/{folderId}/upload")
+    public String upload(@PathVariable Long folderId,
                          @ModelAttribute FileRequest.UploadDTO file,
                          @AuthenticationPrincipal CustomUserDetails userDetails) {
-        fileService.upload(file, currentId, userDetails.getUser().getId());
+        fileService.upload(file, folderId, userDetails.getUser().getId());
         return "redirect:/";
     }
 

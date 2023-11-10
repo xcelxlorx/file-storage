@@ -24,15 +24,10 @@ public class FolderController {
     public String findById(@PathVariable Long folderId, Model model){
         FileResponse.FindFileDTO files = fileService.findByFolderId(folderId);
         FolderResponse.FindFolderDTO folders = folderService.findByParentId(folderId);
-        model.addAttribute("currentId", folderId);
+        model.addAttribute("folderId", folderId);
         model.addAttribute("files", files);
         model.addAttribute("folders", folders);
         return "home";
-    }
-
-    @PostMapping("/{folderId}/download")
-    public void download(@PathVariable Long folderId){
-
     }
 
     @GetMapping("/{folderId}/create")
@@ -45,6 +40,11 @@ public class FolderController {
     public String create(@PathVariable Long folderId, @ModelAttribute FolderRequest.SaveDTO saveDTO){
         folderService.create(saveDTO, folderId);
         return "redirect:/";
+    }
+
+    @PostMapping("/{folderId}/download")
+    public void download(@PathVariable Long folderId){
+
     }
 
     @PostMapping("/{folderId}/delete")
