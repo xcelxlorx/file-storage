@@ -58,4 +58,8 @@ public class S3Service {
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .body(bytes);
     }
+
+    public void delete(String saveFileName){
+        amazonS3.deleteObject(bucket, saveFileName);
+    }
 }

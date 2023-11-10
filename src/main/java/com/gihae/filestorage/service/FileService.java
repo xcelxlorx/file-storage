@@ -96,8 +96,10 @@ public class FileService {
                 () -> new Exception404("파일을 찾을 수 없습니다.")
         );
 
+        FileData fileData = file.getFileData();
+
+        s3Service.delete(fileData.getSaveFileName());
         fileRepository.deleteById(itemId);
-        //클라우드에서 파일 진짜 삭제
 
         updateUsage(userId, -file.getSize());
     }
