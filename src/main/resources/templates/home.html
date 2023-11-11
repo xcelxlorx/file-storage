@@ -28,12 +28,12 @@
                 <td th:text="${file.name}"></td>
                 <td>
                     <span>
-                    <button class="btn btn-outline-primary btn-sm"
-                            th:onclick="|location.href='@{/files/{fileId}/download(fileId=${file.id})}'|"
-                            type="button">파일 다운로드</button>
-                    <button class="btn btn-outline-danger btn-sm"
-                            th:onclick="|location.href='@{/files/{fileId}/delete(fileId=${file.id})}'|"
-                            type="button">삭제</button>
+                        <button class="btn btn-outline-primary btn-sm"
+                                th:onclick="|location.href='@{/files/{fileId}/download(fileId=${file.id})}'|"
+                                type="button">파일 다운로드</button>
+                        <button class="btn btn-outline-danger btn-sm"
+                                th:onclick="|location.href='@{/files/{fileId}/delete(fileId=${file.id})}'|"
+                                type="button">삭제</button>
                     </span>
                 </td>
             </tr>
@@ -42,12 +42,12 @@
                        th:href="|/folders/${folder.id}|"/></td>
                 <td>
                     <span>
-                    <button class="btn btn-outline-primary btn-sm"
-                            th:onclick="|location.href='@{/folders/{folderId}/download(folderId=${folder.id})}'|"
-                            type="button">폴더 다운로드</button>
-                    <button class="btn btn-outline-danger btn-sm"
-                            th:onclick="'javascript:deleteFolder('+${folder.id}+')'"
-                            type="button">삭제</button>
+                        <button class="btn btn-outline-primary btn-sm"
+                                th:onclick="|location.href='@{/folders/{folderId}/download(folderId=${folder.id})}'|"
+                                type="button">폴더 다운로드</button>
+                        <button class="btn btn-outline-danger btn-sm"
+                                th:onclick="'javascript:deleteFolder('+${folder.id}+')'"
+                                type="button">삭제</button>
                     </span>
                 </td>
             </tr>
