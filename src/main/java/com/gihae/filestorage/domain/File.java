@@ -23,10 +23,10 @@ public class File {
     @Embedded
     private FileData fileData;
 
-//    @ManyToOne
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Folder folder;
 
     @Builder
