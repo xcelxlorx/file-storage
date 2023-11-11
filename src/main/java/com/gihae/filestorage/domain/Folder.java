@@ -18,6 +18,7 @@ public class Folder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 45, nullable = false)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,9 +35,10 @@ public class Folder {
     private List<File> files = new ArrayList<>();
 
     @Builder
-    public Folder(Long id, String name, Folder parent, List<Folder> folders, List<File> files) {
+    public Folder(Long id, String name, User user, Folder parent, List<Folder> folders, List<File> files) {
         this.id = id;
         this.name = name;
+        this.user = user;
         this.parent = parent;
         this.folders = folders;
         this.files = files;
