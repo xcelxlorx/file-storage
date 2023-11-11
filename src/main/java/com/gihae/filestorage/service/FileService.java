@@ -81,14 +81,14 @@ public class FileService {
     }
 
     @Transactional
-    public ResponseEntity<?> download(Long itemId) {
-        File file = fileRepository.findById(itemId).orElseThrow(
+    public ResponseEntity<?> download(Long fileId) {
+        File file = fileRepository.findById(fileId).orElseThrow(
                 () -> new Exception404("파일을 찾을 수 없습니다.")
         );
         FileData fileData = file.getFileData();
 
         try {
-            return dirService.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
+            return dirService.downloadFile(fileData.getOriginalFileName(), fileData.getSaveFileName());
             //return s3Service.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
         } catch (IOException e) {
             throw new Exception500("파일 다운로드에 실패했습니다.");
