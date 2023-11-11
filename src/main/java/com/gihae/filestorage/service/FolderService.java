@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -54,10 +53,6 @@ public class FolderService {
 
     @Transactional
     public void delete(Long folderId){
-        //folderRepo에서 부모 folderId가 쟤인 것들을 골라옴
-        //folderRepo에서 부모 folderId가 위의 리스트에 있으면 가져옴
-        //반복
-        //더 이상 없으면
         folderRepository.deleteById(folderId);
     }
 }

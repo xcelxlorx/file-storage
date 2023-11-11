@@ -1,7 +1,6 @@
 package com.gihae.filestorage.repository;
 
 import com.gihae.filestorage.domain.File;
-import com.gihae.filestorage.repository.FileRepository;
 import com.gihae.filestorage.repository.jpa.FileJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
