@@ -45,7 +45,7 @@ public class FileService {
             throw new Exception400("동일한 이름의 파일이 존재합니다.");
         });
 
-        Folder parent = folderRepository.findById(folderId).orElseThrow(
+        Folder folder = folderRepository.findById(folderId).orElseThrow(
                 () -> new Exception404("상위 폴더가 존재하지 않습니다.")
         );
 
@@ -59,15 +59,15 @@ public class FileService {
             throw new Exception500("파일 업로드에 실패했습니다.");
         }
 
-        save(userId, uploadDTO.getFile(), parent, fileData);
+        save(userId, uploadDTO.getFile(), folder, fileData);
     }
 
-    private void save(Long userId, MultipartFile multipartFile, Folder parent, FileData fileData) {
+    private void save(Long userId, MultipartFile multipartFile, Folder folder, FileData fileData) {
         File file = File.builder()
                 .name(fileData.getOriginalFileName())
                 .fileData(fileData)
                 .size(multipartFile.getSize())
-                .parent(parent)
+                .folder(folder)
                 .build();
 
         fileRepository.save(file);
