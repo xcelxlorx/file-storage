@@ -20,21 +20,25 @@ public class Folder {
 
     private String name;
 
-//    @ManyToOne
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Folder parent;
 
     @OneToMany(mappedBy = "parent")
-    private List<Folder> child = new ArrayList<>();
+    private List<Folder> folders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "folder")
+    private List<File> files = new ArrayList<>();
 
     @Builder
-    public Folder(Long id, String name, Folder parent, List<Folder> child) {
+    public Folder(Long id, String name, Folder parent, List<Folder> folders, List<File> files) {
         this.id = id;
         this.name = name;
         this.parent = parent;
-        this.child = child;
+        this.folders = folders;
+        this.files = files;
     }
 }
