@@ -41,6 +41,10 @@ public class FileService {
 
     @Transactional
     public void upload(FileRequest.UploadDTO uploadDTO, Long folderId, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new Exception404("사용자가 존재하지 않습니다.")
+        );
+
         fileRepository.findByName(uploadDTO.getFile().getOriginalFilename()).ifPresent(file -> {
             throw new Exception400("동일한 이름의 파일이 존재합니다.");
         });
@@ -59,20 +63,21 @@ public class FileService {
             throw new Exception500("파일 업로드에 실패했습니다.");
         }
 
-        save(userId, uploadDTO.getFile(), folder, fileData);
+        save(user, uploadDTO.getFile(), folder, fileData);
     }
 
-    private void save(Long userId, MultipartFile multipartFile, Folder folder, FileData fileData) {
+    private void save(User user, MultipartFile multipartFile, Folder folder, FileData fileData) {
         File file = File.builder()
                 .name(fileData.getOriginalFileName())
                 .fileData(fileData)
                 .size(multipartFile.getSize())
+                .user(user)
                 .folder(folder)
                 .build();
 
         fileRepository.save(file);
 
-        updateUsage(userId, file.getSize());
+        user.updateUsage(user.getUsage() + file.getSize());
     }
 
     @Transactional
@@ -92,6 +97,10 @@ public class FileService {
 
     @Transactional
     public void delete(Long itemId, Long userId){
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new Exception404("사용자가 존재하지 않습니다.")
+        );
+
         File file = fileRepository.findById(itemId).orElseThrow(
                 () -> new Exception404("파일을 찾을 수 없습니다.")
         );
@@ -102,14 +111,7 @@ public class FileService {
         //s3Service.delete(fileData.getSaveFileName());
         fileRepository.deleteById(itemId);
 
-        updateUsage(userId, -file.getSize());
-    }
-
-    private void updateUsage(Long userId, Long fileSize){
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new Exception404("사용자를 찾을 수 없습니다.")
-        );
-        user.updateUsage(user.getUsage() + fileSize);
+        user.updateUsage(user.getUsage() - file.getSize());
     }
 
     private FileData transfer(MultipartFile file){

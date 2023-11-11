@@ -31,11 +31,12 @@ public class File {
     private Folder folder;
 
     @Builder
-    public File(Long id, String name, Long size, FileData fileData, Folder folder) {
+    public File(Long id, String name, Long size, FileData fileData, User user, Folder folder) {
         this.id = id;
         this.name = name;
         this.size = size;
         this.fileData = fileData;
+        this.user = user;
         this.folder = folder;
     }
 }
