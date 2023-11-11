@@ -28,10 +28,10 @@ public class Folder {
     @JoinColumn(name = "parent_id")
     private Folder parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
     private List<Folder> folders = new ArrayList<>();
 
-    @OneToMany(mappedBy = "folder")
+    @OneToMany(mappedBy = "folder", cascade = CascadeType.REMOVE)
     private List<File> files = new ArrayList<>();
 
     @Builder
