@@ -1,4 +1,4 @@
-package com.gihae.filestorage.repository.impl;
+package com.gihae.filestorage.repository;
 
 import com.gihae.filestorage.domain.Folder;
 import com.gihae.filestorage.repository.FolderRepository;
