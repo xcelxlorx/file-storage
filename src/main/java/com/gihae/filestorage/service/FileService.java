@@ -115,7 +115,7 @@ public class FileService {
 
         String originalFilename = file.getOriginalFilename();
         if(originalFilename == null){
-            throw new ApiException(ExceptionCode.FILE_NAME_NOT_EXISTED);
+            throw new ApiException(ExceptionCode.FILE_NAME_IS_EMPTY);
         }
 
         int pos = originalFilename.lastIndexOf(".");
