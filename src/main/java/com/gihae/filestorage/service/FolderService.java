@@ -1,7 +1,9 @@
 package com.gihae.filestorage.service;
 
+import com.gihae.filestorage._core.errors.exception.ApiException;
 import com.gihae.filestorage._core.errors.exception.Exception400;
 import com.gihae.filestorage._core.errors.exception.Exception404;
+import com.gihae.filestorage._core.errors.exception.ExceptionCode;
 import com.gihae.filestorage.controller.dto.FolderRequest;
 import com.gihae.filestorage.controller.dto.FolderResponse;
 import com.gihae.filestorage.domain.Folder;
@@ -19,6 +21,8 @@ public class FolderService {
 
     private final FolderRepository folderRepository;
 
+    private final FileService fileService;
+
     public FolderResponse.FindFolderDTO findByParentId(Long parentId){
         List<Folder> folders = folderRepository.findByParentId(parentId);
         return new FolderResponse.FindFolderDTO(folders);
@@ -31,7 +35,7 @@ public class FolderService {
         });
 
         Folder parent = folderRepository.findById(parentId).orElseThrow(
-                () -> new Exception404("해당 상위 폴더가 존재하지 않습니다.")
+                () -> new ApiException(ExceptionCode.PARENT_FOLDER_NOT_FOUND)
         );
 
         save(saveDTO, parent);
@@ -47,7 +51,7 @@ public class FolderService {
     }
 
     @Transactional
-    public void download(){
+    public void download(Long folderId){
 
     }
 
