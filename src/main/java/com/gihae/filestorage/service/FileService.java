@@ -39,9 +39,7 @@ public class FileService {
 
     @Transactional
     public void upload(FileRequest.UploadDTO uploadDTO, Long folderId, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new ApiException(ExceptionCode.USER_NOT_FOUND)
-        );
+        User user = getUser(userId);
 
         fileRepository.findByName(uploadDTO.getFile().getOriginalFilename()).ifPresent(file -> {
             throw new Exception400("동일한 이름의 파일이 존재합니다.");
@@ -94,10 +92,8 @@ public class FileService {
     }
 
     @Transactional
-    public void delete(Long itemId, Long userId){
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new ApiException(ExceptionCode.USER_NOT_FOUND)
-        );
+    public void delete(Long itemId, Long userId) {
+        User user = getUser(userId);
 
         File file = fileRepository.findById(itemId).orElseThrow(
                 () -> new Exception404("파일을 찾을 수 없습니다.")
@@ -128,5 +124,11 @@ public class FileService {
         String saveFileName = uuid + "." + ext;
 
         return new FileData(originalFilename, saveFileName);
+    }
+
+    private User getUser(Long userId) {
+        return userRepository.findById(userId).orElseThrow(
+                () -> new ApiException(ExceptionCode.USER_NOT_FOUND)
+        );
     }
 }
