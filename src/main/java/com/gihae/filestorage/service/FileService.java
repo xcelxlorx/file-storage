@@ -46,7 +46,7 @@ public class FileService {
         });
 
         Folder folder = folderRepository.findById(folderId).orElseThrow(
-                () -> new Exception404("상위 폴더가 존재하지 않습니다.")
+                () -> new ApiException(ExceptionCode.PARENT_FOLDER_NOT_FOUND)
         );
 
         MultipartFile file = uploadDTO.getFile();
@@ -87,7 +87,7 @@ public class FileService {
             return dirService.downloadFile(fileData.getOriginalFileName(), fileData.getSaveFileName());
             //return s3Service.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
         } catch (IOException e) {
-            throw new Exception500("파일 다운로드에 실패했습니다.");
+            throw new ApiException(ExceptionCode.FILE_DOWNLOAD_FAILED);
         }
     }
 
