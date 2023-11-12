@@ -16,7 +16,8 @@ public enum ExceptionCode {
     FILE_NAME_EMPTY(HttpStatus.BAD_REQUEST, "파일 이름이 없습니다."),
     FILE_NAME_EXISTED(HttpStatus.BAD_REQUEST, "동일한 파일 이름이 있습니다."),
 
-    PARENT_FOLDER_NOT_FOUND(HttpStatus.NOT_FOUND, "상위 폴더를 찾을 수 없습니다.");
+    PARENT_FOLDER_NOT_FOUND(HttpStatus.NOT_FOUND, "상위 폴더를 찾을 수 없습니다."),
+    FOLDER_NAME_EXISTED(HttpStatus.BAD_REQUEST, "동일한 폴더 이름이 있습니다.");
 
     private final HttpStatus status;
     private final String message;

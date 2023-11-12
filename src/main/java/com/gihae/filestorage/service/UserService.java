@@ -1,7 +1,6 @@
 package com.gihae.filestorage.service;
 
 import com.gihae.filestorage._core.errors.exception.ApiException;
-import com.gihae.filestorage._core.errors.exception.Exception404;
 import com.gihae.filestorage._core.errors.exception.ExceptionCode;
 import com.gihae.filestorage.controller.dto.UserRequest;
 import com.gihae.filestorage.controller.dto.UserResponse;

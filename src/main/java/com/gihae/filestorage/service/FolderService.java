@@ -1,8 +1,6 @@
 package com.gihae.filestorage.service;
 
 import com.gihae.filestorage._core.errors.exception.ApiException;
-import com.gihae.filestorage._core.errors.exception.Exception400;
-import com.gihae.filestorage._core.errors.exception.Exception404;
 import com.gihae.filestorage._core.errors.exception.ExceptionCode;
 import com.gihae.filestorage.controller.dto.FolderRequest;
 import com.gihae.filestorage.controller.dto.FolderResponse;
@@ -31,7 +29,7 @@ public class FolderService {
     @Transactional
     public void create(FolderRequest.SaveDTO saveDTO, Long parentId){
         folderRepository.findByName(saveDTO.getName()).ifPresent(folder -> {
-            throw new Exception400("동일한 이름의 폴더가 존재합니다.");
+            throw new ApiException(ExceptionCode.FOLDER_NAME_EXISTED);
         });
 
         Folder parent = folderRepository.findById(parentId).orElseThrow(
