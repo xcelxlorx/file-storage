@@ -56,7 +56,7 @@ public class FileService {
             dirService.upload(fileData, file);
             //s3Service.upload(fileData, file);
         } catch (IOException e) {
-            throw new Exception500("파일 업로드에 실패했습니다.");
+            throw new ApiException(ExceptionCode.FILE_UPLOAD_FAILED);
         }
 
         save(user, uploadDTO.getFile(), folder, fileData);
