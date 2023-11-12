@@ -79,7 +79,7 @@ public class FileService {
     @Transactional
     public ResponseEntity<?> download(Long fileId) {
         File file = fileRepository.findById(fileId).orElseThrow(
-                () -> new Exception404("파일을 찾을 수 없습니다.")
+                () -> new ApiException(ExceptionCode.FILE_NOT_FOUND)
         );
         FileData fileData = file.getFileData();
 
@@ -96,7 +96,7 @@ public class FileService {
         User user = getUser(userId);
 
         File file = fileRepository.findById(itemId).orElseThrow(
-                () -> new Exception404("파일을 찾을 수 없습니다.")
+                () -> new ApiException(ExceptionCode.FILE_NOT_FOUND)
         );
 
         FileData fileData = file.getFileData();
@@ -110,7 +110,7 @@ public class FileService {
 
     private FileData transfer(MultipartFile file){
         if(file.isEmpty()){
-            throw new Exception404("파일이 없습니다.");
+            throw new ApiException(ExceptionCode.FILE_NOT_FOUND);
         }
 
         String originalFilename = file.getOriginalFilename();
