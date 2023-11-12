@@ -42,7 +42,7 @@ public class FileService {
         User user = getUser(userId);
 
         fileRepository.findByName(uploadDTO.getFile().getOriginalFilename()).ifPresent(file -> {
-            throw new Exception400("동일한 이름의 파일이 존재합니다.");
+            throw new ApiException(ExceptionCode.FILE_NAME_EXISTED);
         });
 
         Folder folder = folderRepository.findById(folderId).orElseThrow(
@@ -115,7 +115,7 @@ public class FileService {
 
         String originalFilename = file.getOriginalFilename();
         if(originalFilename == null){
-            throw new ApiException(ExceptionCode.FILE_NAME_IS_EMPTY);
+            throw new ApiException(ExceptionCode.FILE_NAME_EMPTY);
         }
 
         int pos = originalFilename.lastIndexOf(".");
