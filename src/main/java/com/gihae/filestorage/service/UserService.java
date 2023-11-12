@@ -1,6 +1,8 @@
 package com.gihae.filestorage.service;
 
+import com.gihae.filestorage._core.errors.exception.ApiException;
 import com.gihae.filestorage._core.errors.exception.Exception404;
+import com.gihae.filestorage._core.errors.exception.ExceptionCode;
 import com.gihae.filestorage.controller.dto.UserRequest;
 import com.gihae.filestorage.controller.dto.UserResponse;
 import com.gihae.filestorage.domain.Folder;
@@ -49,7 +51,7 @@ public class UserService {
 
     public UserResponse.FindUserDTO findById(Long userId){
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new Exception404("사용자를 찾을 수 없습니다.")
+                () -> new ApiException(ExceptionCode.USER_NOT_FOUND)
         );
 
         return new UserResponse.FindUserDTO(user);

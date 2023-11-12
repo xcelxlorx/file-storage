@@ -1,8 +1,6 @@
 package com.gihae.filestorage.service;
 
-import com.gihae.filestorage._core.errors.exception.Exception400;
-import com.gihae.filestorage._core.errors.exception.Exception404;
-import com.gihae.filestorage._core.errors.exception.Exception500;
+import com.gihae.filestorage._core.errors.exception.*;
 import com.gihae.filestorage.controller.dto.FileRequest;
 import com.gihae.filestorage.controller.dto.FileResponse;
 import com.gihae.filestorage.domain.File;
@@ -42,7 +40,7 @@ public class FileService {
     @Transactional
     public void upload(FileRequest.UploadDTO uploadDTO, Long folderId, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new Exception404("사용자가 존재하지 않습니다.")
+                () -> new ApiException(ExceptionCode.USER_NOT_FOUND)
         );
 
         fileRepository.findByName(uploadDTO.getFile().getOriginalFilename()).ifPresent(file -> {
@@ -98,7 +96,7 @@ public class FileService {
     @Transactional
     public void delete(Long itemId, Long userId){
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new Exception404("사용자가 존재하지 않습니다.")
+                () -> new ApiException(ExceptionCode.USER_NOT_FOUND)
         );
 
         File file = fileRepository.findById(itemId).orElseThrow(
