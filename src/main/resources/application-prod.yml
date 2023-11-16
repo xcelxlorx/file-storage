@@ -1,0 +1,35 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/file_storage?rewriteBatchedStatements=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+      default_batch_fetch_size: 100
+    open-in-view: false
+
+file:
+  dir: /home/ubuntu/uploads
+
+cloud:
+  aws:
+    s3:
+      bucket: gihae-file-bucket
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
