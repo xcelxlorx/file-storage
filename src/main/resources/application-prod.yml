@@ -20,7 +20,7 @@ spring:
     open-in-view: false
 
 file:
-  dir: /home/ubuntu/uploads
+  dir: home/ubuntu/uploads
 
 cloud:
   aws:
