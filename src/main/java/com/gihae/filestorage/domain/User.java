@@ -28,19 +28,19 @@ public class User {
     @Column(length = 45, nullable = false)
     private String role;
 
-    private Long usage;
+    private Long totalUsage;
 
     @Builder
-    public User(Long id, String email, String password, String username, String role, Long usage) {
+    public User(Long id, String email, String password, String username, String role, Long totalUsage) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.username = username;
         this.role = role;
-        this.usage = usage;
+        this.totalUsage = totalUsage;
     }
 
     public void updateUsage(Long usage){
-        this.usage = usage;
+        this.totalUsage = usage;
     }
 }

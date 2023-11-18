@@ -73,7 +73,7 @@ public class FileService {
 
         fileRepository.save(file);
 
-        user.updateUsage(user.getUsage() + file.getSize());
+        user.updateUsage(user.getTotalUsage() + file.getSize());
     }
 
     @Transactional
@@ -105,7 +105,7 @@ public class FileService {
         //s3Service.delete(fileData.getSaveFileName());
         fileRepository.deleteById(itemId);
 
-        user.updateUsage(user.getUsage() - file.getSize());
+        user.updateUsage(user.getTotalUsage() - file.getSize());
     }
 
     private FileData transfer(MultipartFile file){

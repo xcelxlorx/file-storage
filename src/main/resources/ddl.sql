@@ -22,7 +22,7 @@ create table user_tb (
                          email varchar(100) not null,
                          password varchar(256) not null,
                          role varchar(45) not null,
-                         usage bigint,
+                         total_usage bigint,
                          username varchar(45) not null,
                          primary key (id)
 );
