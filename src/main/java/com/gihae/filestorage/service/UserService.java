@@ -35,7 +35,7 @@ public class UserService {
                 .email(joinDTO.getEmail())
                 .role("NORMAL")
                 .password(joinDTO.getPassword())
-                .usage(0L)
+                .totalUsage(0L)
                 .build();
 
         userRepository.save(user);
