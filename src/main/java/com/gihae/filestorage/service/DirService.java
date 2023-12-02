@@ -7,7 +7,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
@@ -17,7 +17,7 @@ import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 
 @RequiredArgsConstructor
-@Service
+@Component
 public class DirService implements StorageService{
 
     @Value("${file.dir}")
