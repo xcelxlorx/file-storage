@@ -23,17 +23,16 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class S3Service {
+public class S3Service implements StorageService{
 
     private final AmazonS3 amazonS3;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String getUrl(String fileName){
-        return amazonS3.getUrl(bucket, fileName).toString();
-    }
 
+
+    @Override
     public void upload(FileData fileData, MultipartFile file) throws IOException {
         String fileName = fileData.getSaveFileName();
 
@@ -46,7 +45,8 @@ public class S3Service {
         }
     }
 
-    public ResponseEntity<byte[]> download(String originalFileName, String saveFileName) throws IOException {
+    @Override
+    public ResponseEntity<byte[]> download(String originalFileName, String saveFileName) throws IOException{
         S3Object object = amazonS3.getObject(new GetObjectRequest(bucket, saveFileName));
 
         S3ObjectInputStream objectContent = object.getObjectContent();
@@ -59,7 +59,13 @@ public class S3Service {
                 .body(bytes);
     }
 
+    @Override
     public void delete(String saveFileName){
         amazonS3.deleteObject(bucket, saveFileName);
+    }
+
+    @Override
+    public String getPath(String fileName){
+        return amazonS3.getUrl(bucket, fileName).toString();
     }
 }
