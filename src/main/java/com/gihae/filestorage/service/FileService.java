@@ -1,6 +1,7 @@
 package com.gihae.filestorage.service;
 
-import com.gihae.filestorage._core.errors.exception.*;
+import com.gihae.filestorage._core.errors.exception.ApiException;
+import com.gihae.filestorage._core.errors.exception.ExceptionCode;
 import com.gihae.filestorage.controller.dto.FileRequest;
 import com.gihae.filestorage.controller.dto.FileResponse;
 import com.gihae.filestorage.domain.File;
@@ -10,7 +11,6 @@ import com.gihae.filestorage.domain.User;
 import com.gihae.filestorage.repository.FileRepository;
 import com.gihae.filestorage.repository.FolderRepository;
 import com.gihae.filestorage.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Transactional(readOnly = true)
-@RequiredArgsConstructor
 @Service
 public class FileService {
 
@@ -30,6 +29,18 @@ public class FileService {
     private final UserRepository userRepository;
 
     private final StorageService storageService;
+
+    public FileService(
+            FileRepository fileRepository,
+            FolderRepository folderRepository,
+            UserRepository userRepository,
+            S3Service s3Service
+    ) {
+        this.storageService = s3Service;
+        this.fileRepository = fileRepository;
+        this.folderRepository = folderRepository;
+        this.userRepository = userRepository;
+    }
 
     public FileResponse.FindFileDTO findByFolderId(Long folderId){
         List<File> files = fileRepository.findByFolderId(folderId);
