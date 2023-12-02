@@ -29,8 +29,7 @@ public class FileService {
     private final FolderRepository folderRepository;
     private final UserRepository userRepository;
 
-    private final S3Service s3Service; //s3에 파일 저장
-    private final DirService dirService; //로컬에 파일 저장
+    private final StorageService storageService;
 
     public FileResponse.FindFileDTO findByFolderId(Long folderId){
         List<File> files = fileRepository.findByFolderId(folderId);
@@ -53,8 +52,7 @@ public class FileService {
         FileData fileData = transfer(file);
 
         try {
-            //dirService.upload(fileData, file);
-            s3Service.upload(fileData, file);
+            storageService.upload(fileData, file);
         } catch (IOException e) {
             throw new ApiException(ExceptionCode.FILE_UPLOAD_FAILED);
         }
@@ -84,8 +82,7 @@ public class FileService {
         FileData fileData = file.getFileData();
 
         try {
-            //return dirService.downloadFile(fileData.getOriginalFileName(), fileData.getSaveFileName());
-            return s3Service.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
+            return storageService.download(fileData.getOriginalFileName(), fileData.getSaveFileName());
         } catch (IOException e) {
             throw new ApiException(ExceptionCode.FILE_DOWNLOAD_FAILED);
         }
@@ -101,8 +98,7 @@ public class FileService {
 
         FileData fileData = file.getFileData();
 
-        //dirService.delete(fileData.getSaveFileName());
-        s3Service.delete(fileData.getSaveFileName());
+        storageService.delete(fileData.getSaveFileName());
         fileRepository.deleteById(itemId);
 
         user.updateUsage(user.getTotalUsage() - file.getSize());
